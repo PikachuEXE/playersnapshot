@@ -1,0 +1,23 @@
+config-version: 1
+properties:
+  # Show debug messages.
+  debug-messages: false
+
+  # Help the developer know how popular the plugin is.
+  use-metrics: true
+  
+  # How long to keep snapshots by default. Valid time suffixes: s|h|m|d|w.
+  default-lifetime: 7d
+  
+# Snapshot 
+periodic-snapshots:
+  enabled: true
+  # How long to keep the snapshot.
+  # 1w = 10080 minutes
+  lifetime: 1w
+
+  interval: 10m
+  
+messages:
+  NoPermission: "You do not have permission: %s"
+  RestoreAfterLogoff: "&f%s&7's snapshot will be restored when they log off."
