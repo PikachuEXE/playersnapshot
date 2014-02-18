@@ -42,8 +42,7 @@ public class CreateCommand implements Command {
 					String snapName = "manual-"+date+"-"+Config.getString("properties.default-lifetime"); 
 					
 					if (args.length  > 1)
-						snapName = args[1];
-					
+						snapName = Plugin.getFinalArg(args, 1);
 					
 					File f = Plugin.BackupPlayer(p, snapName);
 					
