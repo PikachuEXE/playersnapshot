@@ -14,9 +14,12 @@ periodic-snapshots:
   enabled: true
   # How long to keep the snapshot.
   # 1w = 10080 minutes
-  lifetime: 1w
+  lifetime: 1d
 
-  interval: 10m
+  interval: 1h
+
+event-snapshots:
+  player-death: true
   
 messages:
   NoPermission: "You do not have permission: %s"

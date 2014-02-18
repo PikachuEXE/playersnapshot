@@ -20,10 +20,12 @@ permissions:
     default: true
     children:
       ps.periodic-snapshot: true
+      ps.event-snapshot.player-death: true
   ps.admin:
     description: Gives access to admin commands.
     default: false
     children:
+      ps.user: true
       ps.search: true
       ps.create: true
       ps.reload: true

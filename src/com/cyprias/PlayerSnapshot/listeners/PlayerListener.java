@@ -2,6 +2,8 @@ package com.cyprias.PlayerSnapshot.listeners;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -9,16 +11,44 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+
+import com.cyprias.PlayerSnapshot.Logger;
 import com.cyprias.PlayerSnapshot.Plugin;
 import com.cyprias.PlayerSnapshot.commands.RestoreCommand;
+import com.cyprias.PlayerSnapshot.configuration.Config;
+import com.cyprias.PlayerSnapshot.utils.ChatUtils;
 
 
 public class PlayerListener implements Listener {
 
+	@EventHandler
+	public void onPlayerDeathEvent(PlayerDeathEvent e) throws IOException {
+		
+		if (Config.getBoolean("event-snapshots.player-death")){
+			
+			Player p = e.getEntity();
+			if (p.hasPermission("ps.event-snapshot.player-death")){
+				SimpleDateFormat ft = new SimpleDateFormat ("yyyyMMdd.hhmmss"); 
+				String date = ft.format(new Date());
+				
+				String snapName = "death-"+date+"-"+Config.getString("properties.default-lifetime"); 
+				
+			
+				if (Plugin.BackupPlayer(p, snapName) != null)
+					Logger.info("Created snapshot (" + snapName +") for " + p.getName() + ".");
+
+				
+			}
+			
+			
+			
+		}
+	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler
 	public void onPlayerQuitEvent(PlayerQuitEvent e) {
 		
 		final Player p = e.getPlayer();

@@ -226,6 +226,10 @@ public class Plugin extends JavaPlugin {
 	
 	public static File BackupPlayer(Player p, String snapName) throws IOException {
 	
+		//Plugin.getInstance().getServer().savePlayers();
+		
+		p.saveData();
+
 		File f = getPlayerDat(p.getName());
 		
 		if (f != null){
@@ -240,6 +244,8 @@ public class Plugin extends JavaPlugin {
 			// Create the folder for the dat file.
 			
 			File dest = new File(snapFile);// + File.separator + f.getName()
+			
+			
 			
 			// Copy file over.
 			copyFile(f, dest);
