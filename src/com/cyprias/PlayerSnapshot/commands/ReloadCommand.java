@@ -11,12 +11,12 @@ import com.cyprias.PlayerSnapshot.utils.ChatUtils;
 
 public class ReloadCommand implements Command {
 	public void listCommands(CommandSender sender, List<String> list) {
-		if (sender.hasPermission("reload"))
+		if (sender.hasPermission("ps.reload"))
 			list.add("/%s reload - Reload the plugin.");
 	}
 
 	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
-		if (!Plugin.checkPermission(sender, "reload"))
+		if (!Plugin.checkPermission(sender, "ps.reload"))
 			return false;
 		Plugin instance = Plugin.getInstance();
 		
@@ -32,7 +32,7 @@ public class ReloadCommand implements Command {
 	}
 
 	public void getCommands(CommandSender sender, org.bukkit.command.Command cmd) {
-		ChatUtils.sendCommandHelp(sender, "reload", "/%s reload - Reload the plugin.", cmd);
+		ChatUtils.sendCommandHelp(sender, "ps.reload", "/%s reload - Reload the plugin.", cmd);
 	}
 
 	public boolean hasValues() {
