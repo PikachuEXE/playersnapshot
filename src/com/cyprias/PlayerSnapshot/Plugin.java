@@ -25,6 +25,7 @@ import com.cyprias.PlayerSnapshot.command.CommandManager;
 import com.cyprias.PlayerSnapshot.commands.CreateCommand;
 import com.cyprias.PlayerSnapshot.commands.ReloadCommand;
 import com.cyprias.PlayerSnapshot.commands.RestoreCommand;
+import com.cyprias.PlayerSnapshot.commands.RestoreToCommand;
 import com.cyprias.PlayerSnapshot.commands.SearchCommand;
 import com.cyprias.PlayerSnapshot.commands.VersionCommand;
 import com.cyprias.PlayerSnapshot.configuration.Config;
@@ -65,6 +66,7 @@ public class Plugin extends JavaPlugin {
 		cm.registerCommand("create", new CreateCommand());
 		cm.registerCommand("search", new SearchCommand());
 		cm.registerCommand("restore", new RestoreCommand());
+		cm.registerCommand("restoreto", new RestoreToCommand());
 		
 		getCommand("ps").setExecutor(cm);
 		

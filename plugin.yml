@@ -31,3 +31,4 @@ permissions:
       ps.reload: true
       ps.restore: true
       ps.version: true
+      ps.restoreto: true

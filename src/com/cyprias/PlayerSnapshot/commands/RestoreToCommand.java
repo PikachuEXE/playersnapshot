@@ -8,21 +8,20 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.cyprias.PlayerSnapshot.Logger;
 import com.cyprias.PlayerSnapshot.Plugin;
 import com.cyprias.PlayerSnapshot.command.Command;
 import com.cyprias.PlayerSnapshot.command.CommandAccess;
 import com.cyprias.PlayerSnapshot.configuration.Config;
 import com.cyprias.PlayerSnapshot.utils.ChatUtils;
 
-public class RestoreCommand implements Command {
+public class RestoreToCommand implements Command {
 	public void listCommands(CommandSender sender, List<String> list) {
-		if (sender.hasPermission("ps.restore"))
-			list.add("/%s restore - Restore a snapshop.");
+		if (sender.hasPermission("ps.restoreto"))
+			list.add("/%s restoreto - Restore a snapshop to someone.");
 	}
-
+	
 	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
-		if (!Plugin.checkPermission(sender, "ps.restore"))
+		if (!Plugin.checkPermission(sender, "ps.restoreto"))
 			return false;
 		
 		if (!SearchCommand.previousResults.containsKey(sender.getName())){
@@ -32,10 +31,10 @@ public class RestoreCommand implements Command {
 		}
 		
 		if (args.length == 0){
-			ChatUtils.send(sender, "Add the index number from the search command.");
+			ChatUtils.send(sender, "/%s restoreto <id> [playerName]");
 			return true;
 		}
-		
+
 		int index;
 		if (Plugin.isInt(args[0])) {
 			index = Integer.parseInt(args[0]);
@@ -43,6 +42,12 @@ public class RestoreCommand implements Command {
 			ChatUtils.error(sender, "Invalid index: " +  args[0]);
 			return true;
 		}
+		
+		String toName = sender.getName();
+		if (args.length > 1){
+			toName = args[1];
+		}
+		
 		//index -= 1; //our table indexs start at 0.
 		
 		
@@ -64,39 +69,25 @@ public class RestoreCommand implements Command {
 		//ChatUtils.send(sender, "getPath " + file.getPath());
 		Player p = Plugin.getInstance().getServer().getPlayer(pName);
 		if (p != null && p.isOnline()){
-			offlineQueue.put(p.getName(), file);
-			//ChatUtils.send(sender, Config.getString("messages.RestoreAfterLogoff", p.getName()));
-			ChatUtils.send(sender, Config.getString("messages.RestoreAfterLogoff", file.getName(), p.getName()));
+			RestoreCommand.offlineQueue.put(toName, file);
+			ChatUtils.send(sender, Config.getString("messages.RestoreAfterLogoff", file.getName(), toName));
 			return true;
 		}
-		
-		
-		try {
-			Plugin.RestorePlayer(file, pName);
-			ChatUtils.send(sender, "Inventory restored.");
-			return true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		ChatUtils.send(sender, "Restore failed.");
+
 		
 		return true;
 	}
-	
-	public static HashMap<String, File> offlineQueue = new HashMap<String, File>();
 	
 	public CommandAccess getAccess() {
 		return CommandAccess.BOTH;
 	}
 
 	public void getCommands(CommandSender sender, org.bukkit.command.Command cmd) {
-		ChatUtils.sendCommandHelp(sender, "ps.restore", "/%s restore <id>", cmd);
+		ChatUtils.sendCommandHelp(sender, "ps.restoreto", "/%s restoreto <id> [playerName]", cmd);
 	}
 
 	public boolean hasValues() {
 		return false;
 	}
-	
+
 }

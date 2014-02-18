@@ -5,21 +5,16 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
 
 import com.cyprias.PlayerSnapshot.Logger;
 import com.cyprias.PlayerSnapshot.Plugin;
 import com.cyprias.PlayerSnapshot.commands.RestoreCommand;
 import com.cyprias.PlayerSnapshot.configuration.Config;
-import com.cyprias.PlayerSnapshot.utils.ChatUtils;
 
 
 public class PlayerListener implements Listener {
@@ -35,12 +30,10 @@ public class PlayerListener implements Listener {
 				String date = ft.format(new Date());
 				
 				String snapName = "death-"+date+"-"+Config.getString("properties.default-lifetime"); 
-				
-			
+
 				if (Plugin.BackupPlayer(p, snapName) != null)
 					Logger.info("Created snapshot (" + snapName +") for " + p.getName() + ".");
 
-				
 			}
 			
 			

@@ -14,7 +14,7 @@ periodic-snapshots:
   enabled: true
   # How long to keep the snapshot.
   # 1w = 10080 minutes
-  lifetime: 1d
+  lifetime: 3d
 
   interval: 1h
 
@@ -23,4 +23,4 @@ event-snapshots:
   
 messages:
   NoPermission: "You do not have permission: %s"
-  RestoreAfterLogoff: "&f%s&7's snapshot will be restored when they log off."
+  RestoreAfterLogoff: "&f%s &7will be restored to &f%s &7when they log off."
