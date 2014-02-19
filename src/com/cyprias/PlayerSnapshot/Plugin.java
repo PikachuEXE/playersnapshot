@@ -23,7 +23,9 @@ import org.mcstats.Metrics;
 import com.cyprias.PlayerSnapshot.Logger;
 import com.cyprias.PlayerSnapshot.command.CommandManager;
 import com.cyprias.PlayerSnapshot.commands.CreateCommand;
+import com.cyprias.PlayerSnapshot.commands.DeleteCommand;
 import com.cyprias.PlayerSnapshot.commands.ReloadCommand;
+import com.cyprias.PlayerSnapshot.commands.RenameCommand;
 import com.cyprias.PlayerSnapshot.commands.RestoreCommand;
 import com.cyprias.PlayerSnapshot.commands.RestoreToCommand;
 import com.cyprias.PlayerSnapshot.commands.SearchCommand;
@@ -37,7 +39,7 @@ import com.cyprias.PlayerSnapshot.utils.DateUtil;
 public class Plugin extends JavaPlugin {
 	// static PluginDescriptionFile description;
 	private static Plugin instance = null;
-	public static String chatPrefix = "&4[&bIS&4]&r ";
+	public static String chatPrefix = "&4[&bPS&4]&r ";
 
 	// public void onLoad() {}
 
@@ -59,7 +61,7 @@ public class Plugin extends JavaPlugin {
 			}
 		}
 
-		// Regster our commands.
+		// Register our commands.
 		CommandManager cm = new CommandManager();
 		cm.registerCommand("version", new VersionCommand());
 		cm.registerCommand("reload", new ReloadCommand());
@@ -67,6 +69,8 @@ public class Plugin extends JavaPlugin {
 		cm.registerCommand("search", new SearchCommand());
 		cm.registerCommand("restore", new RestoreCommand());
 		cm.registerCommand("restoreto", new RestoreToCommand());
+		cm.registerCommand("delete", new DeleteCommand());
+		cm.registerCommand("rename", new RenameCommand());
 		
 		getCommand("ps").setExecutor(cm);
 		

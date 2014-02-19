@@ -48,14 +48,13 @@ public class CreateCommand implements Command {
 					
 					
 					if (f != null){
-						ChatUtils.send(sender, "&7Created snapshot (&f" + snapName +"&7) for &f" + p.getName() + "&7.");
-						
+						ChatUtils.send(sender, Config.getString("messages.CreatedSnapshot", snapName, p.getName()));
 						return true;
 					}
 				} catch (IOException e) {e.printStackTrace();
 			
 				}
-				ChatUtils.error(sender, "Snapshot failed?");
+				ChatUtils.send(sender, Config.getString("messages.SnapshotFailed"));
 				return true;
 				
 				

@@ -26,13 +26,12 @@ public class RestoreCommand implements Command {
 			return false;
 		
 		if (!SearchCommand.previousResults.containsKey(sender.getName())){
-			
-			ChatUtils.send(sender, "Use the search command first.");
+			ChatUtils.send(sender, Config.getString("messages.UseSearch"));
 			return true;
 		}
 		
 		if (args.length == 0){
-			ChatUtils.send(sender, "Add the index number from the search command.");
+			ChatUtils.send(sender, Config.getString("messages.AddIndex"));
 			return true;
 		}
 		
@@ -40,7 +39,7 @@ public class RestoreCommand implements Command {
 		if (Plugin.isInt(args[0])) {
 			index = Integer.parseInt(args[0]);
 		} else {
-			ChatUtils.error(sender, "Invalid index: " +  args[0]);
+			ChatUtils.send(sender, Config.getString("messages.InvalidIndex", args[0]));
 			return true;
 		}
 		//index -= 1; //our table indexs start at 0.

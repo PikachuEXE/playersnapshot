@@ -19,6 +19,8 @@ import com.cyprias.PlayerSnapshot.configuration.Config;
 
 public class PlayerListener implements Listener {
 
+
+	
 	@EventHandler
 	public void onPlayerDeathEvent(PlayerDeathEvent e) throws IOException {
 		

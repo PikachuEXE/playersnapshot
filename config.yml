@@ -25,3 +25,10 @@ event-snapshots:
 messages:
   NoPermission: "You do not have permission: %s"
   RestoreAfterLogoff: "&f%s &7will be restored to &f%s &7when they log off."
+  SnapshotDeleted: "&f%s&7's snapshot &f%s &7has been deleted."
+  AddIndex: "&7Add the index number from the search command."
+  UseSearch: "&7Use the search command first."
+  CreatedSnapshot: "&7Created snapshot (&f%s&7) for &f%s&7."
+  SnapshotFailed: "&7Snapshot failed?"
+  InvalidIndex: "&7Invalid index: &7%s"
+  SnapRenamed: "&f%s &7has been renamed to &f%s&7."

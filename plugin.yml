@@ -2,7 +2,7 @@ name: PlayerSnapshot
 main: com.cyprias.PlayerSnapshot.Plugin
 author: Cyprias
 description: Take snapshots of players to restore later.
-version: 0.1.0
+version: 0.2.0
 
 commands:
   ps:
@@ -32,3 +32,5 @@ permissions:
       ps.restore: true
       ps.version: true
       ps.restoreto: true
+      ps.delete: true
+      ps.rename: true
