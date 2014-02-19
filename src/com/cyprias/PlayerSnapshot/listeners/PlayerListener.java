@@ -22,7 +22,7 @@ public class PlayerListener implements Listener {
 
 	
 	@EventHandler
-	public void onPlayerDeathEvent(PlayerDeathEvent e) throws IOException {
+	public void onPlayerDeathEvent(PlayerDeathEvent e) throws Exception {
 		
 		if (Config.getBoolean("event-snapshots.player-death")){
 			

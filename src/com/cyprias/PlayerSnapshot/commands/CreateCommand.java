@@ -22,7 +22,7 @@ public class CreateCommand implements Command {
 			list.add("/%s create - Create a snapshop.");
 	}
 
-	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
+	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) throws Exception {
 		if (!Plugin.checkPermission(sender, "ps.create"))
 			return false;
 

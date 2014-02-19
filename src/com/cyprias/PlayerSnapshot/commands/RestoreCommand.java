@@ -8,7 +8,6 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.cyprias.PlayerSnapshot.Logger;
 import com.cyprias.PlayerSnapshot.Plugin;
 import com.cyprias.PlayerSnapshot.command.Command;
 import com.cyprias.PlayerSnapshot.command.CommandAccess;

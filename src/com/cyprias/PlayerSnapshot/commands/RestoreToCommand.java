@@ -2,7 +2,6 @@ package com.cyprias.PlayerSnapshot.commands;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;

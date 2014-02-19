@@ -1,7 +1,6 @@
 package com.cyprias.PlayerSnapshot.commands;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,9 +8,6 @@ import java.util.List;
 
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import com.cyprias.PlayerSnapshot.Logger;
 import com.cyprias.PlayerSnapshot.Plugin;
 import com.cyprias.PlayerSnapshot.command.Command;
 import com.cyprias.PlayerSnapshot.command.CommandAccess;
@@ -27,6 +23,7 @@ public class SearchCommand implements Command {
 	
 	public static HashMap<String, String> previousPlayer = new HashMap<String, String>();
 	
+
 	
 	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
 		if (!Plugin.checkPermission(sender, "ps.search"))

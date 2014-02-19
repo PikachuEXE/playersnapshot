@@ -9,7 +9,10 @@ import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -120,6 +123,9 @@ public class Plugin extends JavaPlugin {
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
@@ -143,16 +149,15 @@ public class Plugin extends JavaPlugin {
 			File[] snaps;
 		
 			String regex = "(.*)-(.*)-(.*).dat$";
-			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			long age, modified;
 			
 			for (File f : listOfFiles) {
 			//	f = listOfFiles[i];
 				if (!f.isFile()) {//Folder
-					
-					Logger.debug("Checking " + f.getName() + "'s " +listOfFiles.length + " snapshots.");
-					
 					snaps = f.listFiles();
+					
+					Logger.debug("Checking " + f.getName() + "'s " +snaps.length + " snapshots.");
+
 					//(.*)-(.*)-(.*).dat$
 					for (File snap : snaps) {
 						
@@ -192,7 +197,7 @@ public class Plugin extends JavaPlugin {
 		}
 	};
 	
-	
+	/*
 	private void BackupPlayers() throws IOException {
 		Logger.info("BackupPlayers");
 		
@@ -218,7 +223,8 @@ public class Plugin extends JavaPlugin {
 
 		}
 	}
-
+*/
+	
 	public static void RestorePlayer(File snap, String pName) throws IOException{
 		
 		File dest = getPlayerDat(pName);
@@ -230,29 +236,47 @@ public class Plugin extends JavaPlugin {
 	}
 	
 	
-	public static File BackupPlayer(Player p, String snapName) throws IOException {
+	public static File getLatestSnapshot(String playerName){
+		File folder = Plugin.getPlayerDats(playerName);
+		File[] listOfFiles = folder.listFiles();
+		if (listOfFiles.length > 0){
+			// Sort the files by date modified.
+			Arrays.sort(listOfFiles, new Comparator<File>(){
+			    public int compare(File f1, File f2)
+			    {
+			        return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+			    } });
+	
+			return listOfFiles[listOfFiles.length-1];
+		}
+		return null;
+	}
+
+	public static File BackupPlayer(Player p, String snapName) throws Exception {
 	
 		//Plugin.getInstance().getServer().savePlayers();
 		
 		p.saveData();
 
 		File f = getPlayerDat(p.getName());
+		File prevSnap = getLatestSnapshot(p.getName());
+		
+		Logger.debug(f.getName() + " = " + f.length());
+		Logger.debug(prevSnap.getName() + " = " + prevSnap.length() + " : " + (f.length() == prevSnap.length()));
+		
 		
 		if (f != null){
 			// Get the current date.
 			//SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss"); 
 			//String date = ft.format(new Date());
 			String playerDir = instance.getDataFolder() + File.separator + "dats" + File.separator + p.getName();
-			boolean success = new File(playerDir).mkdirs();
+			new File(playerDir).mkdirs();
 			
 			String snapFile = playerDir + File.separator + snapName + ".dat";
 			
 			// Create the folder for the dat file.
-			
 			File dest = new File(snapFile);// + File.separator + f.getName()
-			
-			
-			
+
 			// Copy file over.
 			copyFile(f, dest);
 			
