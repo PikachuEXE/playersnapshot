@@ -27,7 +27,7 @@ public class PlayerListener implements Listener {
 		if (Config.getBoolean("event-snapshots.player-death")){
 			
 			Player p = e.getEntity();
-			if (p.hasPermission("ps.event-snapshot.player-death")){
+			if (p.hasPermission("ps.snapshot.player-death")){
 				SimpleDateFormat ft = new SimpleDateFormat ("yyyyMMdd.hhmmss"); 
 				String date = ft.format(new Date());
 				

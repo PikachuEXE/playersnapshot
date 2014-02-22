@@ -11,7 +11,7 @@ properties:
   
 # Snapshot 
 periodic-snapshots:
-  # If enabled, give your players the 'ps.periodic-snapshot' permission.
+  # If enabled, give your players the 'ps.snapshot.periodic' permission.
   enabled: true
   # How long to keep the snapshot.
   lifetime: 3d
@@ -20,7 +20,7 @@ periodic-snapshots:
 
 event-snapshots:
   player-death: true
-  #If enabled, give your players the 'ps.event-snapshot.player-death' permission.
+  #If enabled, give your players the 'ps.snapshot.player-death' permission.
   
 messages:
   NoPermission: "You do not have permission: %s"

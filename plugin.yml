@@ -19,8 +19,8 @@ permissions:
     description: Gives access to general user commands.
     default: true
     children:
-      ps.periodic-snapshot: true
-      ps.event-snapshot.player-death: true
+      ps.snapshot.periodic: true
+      ps.snapshot.player-death: true
   ps.admin:
     description: Gives access to admin commands.
     default: false

@@ -117,7 +117,7 @@ public class Plugin extends JavaPlugin {
 			Logger.info("Snapshoting "+online.length + " players...");
 			for (Player p : online) {
 
-				if (p.hasPermission("ps.periodic-snapshot")){
+				if (p.hasPermission("ps.snapshot.periodic")){
 					try {
 						Plugin.BackupPlayer(p, snapName);
 					} catch (IOException e) {
