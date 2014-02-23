@@ -60,6 +60,7 @@ public class PlayerListener implements Listener {
 				}
 			}, 1L);
 			
+			RestoreCommand.offlineQueue.remove(p.getName());
 			
 
 		}
