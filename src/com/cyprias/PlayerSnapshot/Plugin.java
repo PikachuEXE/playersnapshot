@@ -12,9 +12,15 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.UUID;
+
+
+import net.minecraft.server.v1_7_R1.NBTCompressedStreamTools;
+import net.minecraft.server.v1_7_R1.NBTTagCompound;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -252,20 +258,18 @@ public class Plugin extends JavaPlugin {
 		return null;
 	}
 
-	public static File BackupPlayer(Player p, String snapName) throws Exception {
+	public static File BackupPlayer(Player p, String snapName) throws IOException {
 	
 		//Plugin.getInstance().getServer().savePlayers();
 		
 		p.saveData();
 
 		File f = getPlayerDat(p.getName());
-		File prevSnap = getLatestSnapshot(p.getName());
-		
-		Logger.debug(f.getName() + " = " + f.length());
-		Logger.debug(prevSnap.getName() + " = " + prevSnap.length() + " : " + (f.length() == prevSnap.length()));
+		//File prevSnap = getLatestSnapshot(p.getName());
+		//Logger.debug(prevSnap.getName() + " = " + prevSnap.length() + " : " + (f.length() == prevSnap.length()));
 		
 		
-		if (f != null){
+		{
 			// Get the current date.
 			//SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss"); 
 			//String date = ft.format(new Date());
@@ -284,8 +288,6 @@ public class Plugin extends JavaPlugin {
 			return dest;
 			
 		}
-		
-		return null;
 
 	}
 
@@ -439,6 +441,11 @@ public class Plugin extends JavaPlugin {
 	
 	public static int scheduleSyncDelayedTask(Runnable arg1, long delay){
 		return Plugin.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(instance, arg1, delay);
+	}
+	
+	public static World getDatWorld(File f) throws FileNotFoundException {
+		NBTTagCompound c = NBTCompressedStreamTools.a(new FileInputStream(f));
+	    return instance.getServer().getWorld(new UUID(c.getLong("WorldUUIDMost"), c.getLong("WorldUUIDLeast")));
 	}
 	
 }

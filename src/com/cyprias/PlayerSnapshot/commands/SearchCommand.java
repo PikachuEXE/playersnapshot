@@ -1,12 +1,14 @@
 package com.cyprias.PlayerSnapshot.commands;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import com.cyprias.PlayerSnapshot.Plugin;
 import com.cyprias.PlayerSnapshot.command.Command;
@@ -25,7 +27,7 @@ public class SearchCommand implements Command {
 	
 
 	
-	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
+	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) throws FileNotFoundException {
 		if (!Plugin.checkPermission(sender, "ps.search"))
 			return false;
 		
@@ -64,6 +66,7 @@ public class SearchCommand implements Command {
 		File f ;
 
 		long age, modified;
+		World w;
 		for (int i = 0; i < listOfFiles.length; i++) {
 			f = listOfFiles[i];
 			
@@ -71,8 +74,10 @@ public class SearchCommand implements Command {
 			
 			age =  Plugin.getUnixTime() - modified;
 
-			ChatUtils.send(sender, "&7[&a"+i + "&7] &f"+ f.getName() + "&7: &f" + Plugin.secondsToString(age));
+			w = Plugin.getDatWorld(f);
+			//w.getName()
 
+			ChatUtils.send(sender, String.format("&7[&a%s&7] &f%s&7 (&f%s&7): &f%s", i, f.getName(), w.getName(), Plugin.secondsToString(age)));
 		}
 		
 		
