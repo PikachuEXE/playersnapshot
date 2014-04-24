@@ -67,20 +67,35 @@ public class PlayerListener implements Listener {
 
 	}
 
+	/*
+					if (Plugin.BackupPlayer(p, snapName) != null)
+						Logger.info("Created snapshot (" + snapName + ") for " + p.getName() + ".");
+						
+	 */
+	
 	@EventHandler
-	public void onPlayerLoginEvent(PlayerLoginEvent e) throws IOException {
+	public void onPlayerLoginEvent(PlayerLoginEvent e) {
 		if (Config.getBoolean("event-snapshots.player-login")) {
 
-			Player p = e.getPlayer();
+			final Player p = e.getPlayer();
 			if (p.hasPermission("ps.snapshot.player-login")) {
 				SimpleDateFormat ft = new SimpleDateFormat("yyyyMMdd.hhmmss");
 				String date = ft.format(new Date());
 
-				String snapName = "login-" + date + "-" + Config.getString("properties.default-lifetime");
+				final String snapName = "login-" + date + "-" + Config.getString("properties.default-lifetime");
 
-				if (Plugin.BackupPlayer(p, snapName) != null)
-					Logger.info("Created snapshot (" + snapName + ") for " + p.getName() + ".");
-
+				Plugin.scheduleSyncDelayedTask(new Runnable() {
+					public void run() {
+						try {
+							if (Plugin.BackupPlayer(p, snapName) != null)
+								Logger.info("Created snapshot (" + snapName + ") for " + p.getName() + ".");
+							
+						} catch (IOException er) {
+							er.printStackTrace();
+						}
+					}
+				}, 1L);
+				
 			}
 
 		}
