@@ -19,8 +19,12 @@ periodic-snapshots:
   interval: 1h
 
 event-snapshots:
-  player-death: true
   #If enabled, give your players the 'ps.snapshot.player-death' permission.
+  player-death: true
+
+  # If enabled, give your players the 'ps.snapshot.player-login' permission.
+  player-login: true
+  
   
 messages:
   NoPermission: "You do not have permission: %s"
