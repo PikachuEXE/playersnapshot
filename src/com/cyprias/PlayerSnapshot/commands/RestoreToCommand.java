@@ -28,8 +28,8 @@ public class RestoreToCommand implements Command {
 			return true;
 		}
 		
-		if (args.length == 0){
-			ChatUtils.send(sender, "/%s restoreto <id> [playerName]");
+		if (args.length <= 1){
+			ChatUtils.send(sender, "/%s restoreto <id> <playerName>");
 			return true;
 		}
 
@@ -74,7 +74,7 @@ public class RestoreToCommand implements Command {
 		
 		try {
 			Plugin.RestorePlayer(file, pName);
-			ChatUtils.send(sender, "Inventory restored.");
+			ChatUtils.send(sender, "Inventory restored to " + pName +".");
 			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
