@@ -23,6 +23,7 @@ permissions:
       ps.snapshot.player-death: true
       ps.snapshot.player-login: true
       ps.snapshot.world-enter: true
+      ps.snapshot.world-leave: true
   ps.admin:
     description: Gives access to admin commands.
     default: false
