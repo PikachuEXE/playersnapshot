@@ -24,7 +24,12 @@ event-snapshots:
 
   # If enabled, give your players the 'ps.snapshot.player-login' permission.
   player-login: true
+
+  # If enabled, give your players the 'ps.snapshot.world-enter' permission.
+  world-enter: false
   
+  # If enabled, give your players the 'ps.snapshot.world-leave' permission.
+  world-leave: true
   
 messages:
   NoPermission: "You do not have permission: %s"
