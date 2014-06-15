@@ -29,7 +29,7 @@ public class RestoreToCommand implements Command {
 		}
 		
 		if (args.length <= 1){
-			ChatUtils.send(sender, "/%s restoreto <id> <playerName>");
+			ChatUtils.send(sender, "&f/ps restoreto <&aid&f> <playerName>");
 			return true;
 		}
 
