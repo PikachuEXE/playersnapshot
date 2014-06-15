@@ -19,7 +19,7 @@ public class RestoreToCommand implements Command {
 			list.add("/%s restoreto - Restore a snapshop to someone.");
 	}
 	
-	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
+	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) throws Exception {
 		if (!Plugin.checkPermission(sender, "ps.restoreto"))
 			return false;
 		

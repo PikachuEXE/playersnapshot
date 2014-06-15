@@ -10,9 +10,11 @@ import java.util.List;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+
 import com.cyprias.PlayerSnapshot.Plugin;
 import com.cyprias.PlayerSnapshot.command.Command;
 import com.cyprias.PlayerSnapshot.command.CommandAccess;
+import com.cyprias.PlayerSnapshot.configuration.Config;
 import com.cyprias.PlayerSnapshot.utils.ChatUtils;
 
 public class SearchCommand implements Command {
@@ -33,12 +35,24 @@ public class SearchCommand implements Command {
 		
 		
 		if (args.length == 0){
-			ChatUtils.send(sender, "&7Add a player's name.");
+			ChatUtils.send(sender, "&7/ps search <name> [page#]");
 			return true;
 		}
 		
 		String pName = args[0];
 
+		int page = 0;
+		if (args.length > 1) {// && args[1].equalsIgnoreCase("compact"))
+			if (Plugin.isInt(args[1])) {
+				page = Math.abs(Integer.parseInt(args[1]));
+			} else {
+				ChatUtils.error(sender, "Invalid page number: " +  args[1]);
+				return true;
+			}
+		}
+		
+		
+		
 		Plugin inst = Plugin.getInstance();
 		Server s = inst.getServer();
 
@@ -63,11 +77,38 @@ public class SearchCommand implements Command {
 		    } });
 		
 		
-		File f ;
+		int rows = listOfFiles.length;
+		if (rows == 0 ){
+			ChatUtils.error(sender, "No results for " + pName);
+			return true;
+		}
+		
+		int rowsPerPage = Config.getInt("properties.rows-per-page");
+		
+		int maxPages = (int) Math.ceil((float) rows / (float) rowsPerPage);	// 10 lines per page.
+		
+		// If user didn't put a page number, show the last page.
+		if (page == 0)
+		{
+			page = maxPages;
+		}
 
+		if (rows > rowsPerPage){
+			ChatUtils.send(sender, String.format("&7Page &f%s &7of &f%s", page, maxPages));
+		}
+		int start = ((page-1) * rowsPerPage);
+		int end = start + rowsPerPage;
+		if (end > rows)
+			end = rows;
+		
+		
+		
+		
+		File f ;
 		long age, modified;
 		World w;
-		for (int i = 0; i < listOfFiles.length; i++) {
+		for (int i = start; i < end; i++) {
+		//for (int i = 0; i < listOfFiles.length; i++) {
 			f = listOfFiles[i];
 			
 			modified = f.lastModified() / 1000;
@@ -77,7 +118,7 @@ public class SearchCommand implements Command {
 			w = Plugin.getDatWorld(f);
 			//w.getName()
 
-			ChatUtils.send(sender, String.format("&7[&a%s&7] &f%s&7 (&f%s&7): &f%s", i, f.getName(), w.getName(), Plugin.secondsToString(age)));
+			ChatUtils.send(sender, String.format("&a§l%s&7 &f%s&7 (&f%s&7) &f%s", i, f.getName(), w.getName(), Plugin.secondsToString(age)));
 		}
 		
 		
@@ -95,7 +136,7 @@ public class SearchCommand implements Command {
 	}
 
 	public void getCommands(CommandSender sender, org.bukkit.command.Command cmd) {
-		ChatUtils.sendCommandHelp(sender, "ps.search", "/%s search <player>", cmd);
+		ChatUtils.sendCommandHelp(sender, "ps.search", "/%s search <player> [page#]", cmd);
 	}
 
 	public boolean hasValues() {

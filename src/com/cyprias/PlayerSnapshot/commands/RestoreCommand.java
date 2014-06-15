@@ -20,7 +20,7 @@ public class RestoreCommand implements Command {
 			list.add("/%s restore - Restore a snapshop.");
 	}
 
-	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) {
+	public boolean execute(final CommandSender sender, org.bukkit.command.Command cmd, String[] args) throws Exception {
 		if (!Plugin.checkPermission(sender, "ps.restore"))
 			return false;
 		

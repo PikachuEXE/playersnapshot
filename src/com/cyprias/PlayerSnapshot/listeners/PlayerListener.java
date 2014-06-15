@@ -26,7 +26,9 @@ public class PlayerListener implements Listener {
 		if (e.getFrom().getWorld().getName() != e.getTo().getWorld().getName())
 		{
 			// Player is leaving their previous world.
-			
+			Logger.debug(p.getName() + " is leaving world: " + p.getWorld().getName());
+			Logger.debug("  Setting event-snapshots.world-leave: " + Config.getBoolean("event-snapshots.world-leave"));
+			Logger.debug("  Has permission ps.snapshot.world-leave: " + p.hasPermission("ps.snapshot.world-leave"));
 			if (Config.getBoolean("event-snapshots.world-leave")) {
 				if (p.hasPermission("ps.snapshot.world-leave")) {
 					SimpleDateFormat ft = new SimpleDateFormat("yyyyMMdd.hhmmss");
@@ -103,6 +105,8 @@ public class PlayerListener implements Listener {
 						Plugin.RestorePlayer(f, p.getName());
 					} catch (IOException er) {
 						er.printStackTrace();
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 			}, 1L);
@@ -124,6 +128,9 @@ public class PlayerListener implements Listener {
 		if (Config.getBoolean("event-snapshots.player-login")) {
 
 			final Player p = e.getPlayer();
+			// Cache their name and UUID for later.
+			Plugin.NameUUIDs.put(p.getName(), p.getUniqueId());
+			
 			if (p.hasPermission("ps.snapshot.player-login")) {
 				SimpleDateFormat ft = new SimpleDateFormat("yyyyMMdd.hhmmss");
 				String date = ft.format(new Date());
@@ -138,6 +145,8 @@ public class PlayerListener implements Listener {
 							
 						} catch (IOException er) {
 							er.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
 					}
 				}, 1L);

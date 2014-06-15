@@ -9,6 +9,9 @@ properties:
   # How long to keep snapshots by default. Valid time suffixes: s|h|m|d|w.
   default-lifetime: 7d
   
+  # How many results to show per page in the search command.
+  rows-per-page: 8
+
 # Snapshot 
 periodic-snapshots:
   # If enabled, give your players the 'ps.snapshot.periodic' permission.
@@ -20,15 +23,16 @@ periodic-snapshots:
 
 event-snapshots:
   #If enabled, give your players the 'ps.snapshot.player-death' permission.
-  player-death: true
+  player-death: false
 
   # If enabled, give your players the 'ps.snapshot.player-login' permission.
   player-login: true
 
   # If enabled, give your players the 'ps.snapshot.world-enter' permission.
-  world-enter: false
+  world-enter: true
   
   # If enabled, give your players the 'ps.snapshot.world-leave' permission.
+  # Only affects teleporting to different world (/mv, /warp, /tp, ect). Using a vanilla nether/enderportal will not trigger this.
   world-leave: true
   
 messages:

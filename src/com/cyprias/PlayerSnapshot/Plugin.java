@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.server.v1_7_R3.NBTCompressedStreamTools;
@@ -29,6 +31,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.mcstats.Metrics;
 
 import com.cyprias.PlayerSnapshot.Logger;
+import com.cyprias.PlayerSnapshot.command.Command;
 import com.cyprias.PlayerSnapshot.command.CommandManager;
 import com.cyprias.PlayerSnapshot.commands.CreateCommand;
 import com.cyprias.PlayerSnapshot.commands.DeleteCommand;
@@ -43,6 +46,7 @@ import com.cyprias.PlayerSnapshot.configuration.YML;
 import com.cyprias.PlayerSnapshot.listeners.PlayerListener;
 import com.cyprias.PlayerSnapshot.utils.ChatUtils;
 import com.cyprias.PlayerSnapshot.utils.DateUtil;
+import com.evilmidget38.UUIDFetcher;
 
 public class Plugin extends JavaPlugin {
 	// static PluginDescriptionFile description;
@@ -230,11 +234,11 @@ public class Plugin extends JavaPlugin {
 	}
 */
 	
-	public static void RestorePlayer(File snap, String pName) throws IOException{
+	public static void RestorePlayer(File snap, String pName) throws Exception{
 		
 		File dest = getPlayerDat(pName);
 		
-		Logger.info("Restoring " + pName + "'s snapshop " + snap.getPath());
+		Logger.info("Restoring " + pName + "'s snapshop " + snap.getPath() + " to " + dest.toString());
 		
 		copyFile(snap, dest);
 
@@ -257,7 +261,7 @@ public class Plugin extends JavaPlugin {
 		return null;
 	}
 
-	public static File BackupPlayer(Player p, String snapName) throws IOException {
+	public static File BackupPlayer(Player p, String snapName) throws Exception {
 	
 		//Plugin.getInstance().getServer().savePlayers();
 		
@@ -290,9 +294,34 @@ public class Plugin extends JavaPlugin {
 
 	}
 
-	private static File getPlayerDat(String name){
-		//String name = p.getName();
-		return new File(instance.getServer().getWorlds().get(0).getWorldFolder().getPath() + File.separator + "players" + File.separator + name+".dat");
+	public static Map<String, UUID> NameUUIDs = new HashMap<String, UUID>();
+	
+	private static UUID getPlayerUUID(String name) throws Exception
+	{
+		UUID u;
+		if (NameUUIDs.containsKey(name))
+		{
+			u = NameUUIDs.get(name);
+		}else {
+			
+			Player p = instance.getServer().getPlayerExact(name);
+			if (p != null)
+			{
+				u = p.getUniqueId();
+			}else{
+				//This needs to be threaded later.
+				u = UUIDFetcher.getUUIDOf(name);
+			}
+			Logger.debug(name + "'s UUID is " + u.toString());
+			NameUUIDs.put(name, u);
+		}
+		return u;
+	}
+	
+	private static File getPlayerDat(String name) throws Exception{
+		UUID u = getPlayerUUID(name);
+		String us = u.toString();
+		return new File(instance.getServer().getWorlds().get(0).getWorldFolder().getPath() + File.separator + "playerdata" + File.separator + us+".dat");
 	}
 	
 	public static File getPlayerDats(String name){
