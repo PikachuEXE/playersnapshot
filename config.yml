@@ -12,6 +12,9 @@ properties:
   # How many results to show per page in the search command.
   rows-per-page: 8
 
+  # Add white spaces to make columns line up. 
+  add-whitespace-to-search: true
+
 # Snapshot 
 periodic-snapshots:
   # If enabled, give your players the 'ps.snapshot.periodic' permission.

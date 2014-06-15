@@ -6,16 +6,21 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
+import com.cyprias.PlayerSnapshot.Logger;
 import com.cyprias.PlayerSnapshot.Plugin;
 import com.cyprias.PlayerSnapshot.command.Command;
 import com.cyprias.PlayerSnapshot.command.CommandAccess;
 import com.cyprias.PlayerSnapshot.configuration.Config;
 import com.cyprias.PlayerSnapshot.utils.ChatUtils;
+import com.cyprias.PlayerSnapshot.utils.MinecraftFontWidthCalculator;
 
 public class SearchCommand implements Command {
 	public void listCommands(CommandSender sender, List<String> list) {
@@ -100,13 +105,25 @@ public class SearchCommand implements Command {
 		int end = start + rowsPerPage;
 		if (end > rows)
 			end = rows;
-		
-		
-		
+
+		Pattern p = Pattern.compile("(.*)-(....)(..)(..)\\.(..)(..)(..)-(.*).dat");
 		
 		File f ;
 		long age, modified;
 		World w;
+		Matcher m;
+		
+		String cFileName;
+		
+		int n = end - start;
+		
+		String[] s1 = new String[rowsPerPage];
+		String[] s2 = new String[rowsPerPage];
+		String[] s3 = new String[rowsPerPage];
+		String[] s4 = new String[rowsPerPage];
+		int sI = 0;
+		
+		
 		for (int i = start; i < end; i++) {
 		//for (int i = 0; i < listOfFiles.length; i++) {
 			f = listOfFiles[i];
@@ -118,8 +135,41 @@ public class SearchCommand implements Command {
 			w = Plugin.getDatWorld(f);
 			//w.getName()
 
-			ChatUtils.send(sender, String.format("&a§l%s&7 &f%s&7 (&f%s&7) &f%s", i, f.getName(), w.getName(), Plugin.secondsToString(age)));
+			cFileName = f.getName();
+			
+			// Colourize the file name.
+			m = p.matcher(f.getName());
+			if (m.find()) {
+				cFileName = ChatColor.WHITE + m.group(1);		// world_enter, trigger
+				cFileName += ChatColor.DARK_GRAY+ "-";
+				cFileName += ChatColor.WHITE + m.group(2);	// 2014, year
+				cFileName += ChatColor.WHITE + m.group(3);	// 06, month
+				cFileName += ChatColor.WHITE + m.group(4);	// 14, day
+				cFileName += ChatColor.DARK_GRAY + ".";
+				cFileName += ChatColor.WHITE + m.group(5);	// 10, hour
+				cFileName += ChatColor.WHITE + m.group(6);	// 01, minute
+				cFileName += ChatColor.WHITE + m.group(7);	// 24, second
+				cFileName += ChatColor.DARK_GRAY+ "-";
+				cFileName += ChatColor.WHITE + m.group(8);	// 7d, cull age
+				cFileName += ChatColor.GRAY + ".dat";
+			}
+			
+			s1[sI] = ""+i;
+			s2[sI] = w.getName();
+			s3[sI] = cFileName;
+			s4[sI] = Plugin.secondsToString(age);
+			sI += 1;
 		}
+		
+		if (Config.getBoolean("properties.add-whitespace-to-search")){
+			s1 = MinecraftFontWidthCalculator.getWhitespacedStrings(s1);
+			s2 = MinecraftFontWidthCalculator.getWhitespacedStrings(s2);
+			s3 = MinecraftFontWidthCalculator.getWhitespacedStrings(s3);
+			s4 = MinecraftFontWidthCalculator.getWhitespacedStrings(s4);
+		}
+		
+		for (int i=0;i<sI;i++)
+			ChatUtils.send(sender, String.format("&a§l%s&7 &e%s&7 &f%s&7 &f%s", s1[i], s2[i], s3[i], s4[i]));
 		
 		
 		previousPlayer.put(sender.getName(), pName);

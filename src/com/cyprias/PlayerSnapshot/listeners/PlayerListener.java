@@ -34,7 +34,7 @@ public class PlayerListener implements Listener {
 					SimpleDateFormat ft = new SimpleDateFormat("yyyyMMdd.hhmmss");
 					String date = ft.format(new Date());
 		
-					String snapName = "world_leave-" + date + "-" + Config.getString("properties.default-lifetime");
+					String snapName = "leave-" + date + "-" + Config.getString("properties.default-lifetime");
 		
 					if (Plugin.BackupPlayer(p, snapName) != null)
 						Logger.info("Created snapshot (" + snapName + ") for " + p.getName() + ".");
@@ -62,7 +62,7 @@ public class PlayerListener implements Listener {
 				SimpleDateFormat ft = new SimpleDateFormat("yyyyMMdd.hhmmss");
 				String date = ft.format(new Date());
 	
-				String snapName = "world_enter-" + date + "-" + Config.getString("properties.default-lifetime");
+				String snapName = "enter-" + date + "-" + Config.getString("properties.default-lifetime");
 	
 				if (Plugin.BackupPlayer(p, snapName) != null)
 					Logger.info("Created snapshot (" + snapName + ") for " + p.getName() + ".");
