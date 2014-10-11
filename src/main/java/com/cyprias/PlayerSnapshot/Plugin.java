@@ -16,9 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.server.v1_7_R4.NBTCompressedStreamTools;
-import net.minecraft.server.v1_7_R4.NBTTagCompound;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -472,8 +469,14 @@ public class Plugin extends JavaPlugin {
 	}
 	
 	public static World getDatWorld(File f) throws FileNotFoundException {
-		NBTTagCompound c = NBTCompressedStreamTools.a(new FileInputStream(f));
-	    return instance.getServer().getWorld(new UUID(c.getLong("WorldUUIDMost"), c.getLong("WorldUUIDLeast")));
+		try {
+			net.minecraft.server.v1_7_R4.NBTTagCompound c = net.minecraft.server.v1_7_R4.NBTCompressedStreamTools.a(new FileInputStream(f));
+			return instance.getServer().getWorld(new UUID(c.getLong("WorldUUIDMost"), c.getLong("WorldUUIDLeast")));
+		} catch (IOException e) {}
+		
+		return null;
+		//net.minecraft.server.v1_7_R1.NBTTagCompound c = net.minecraft.server.v1_7_R1.NBTCompressedStreamTools.a(new FileInputStream(f));
+		//return instance.getServer().getWorld(new UUID(c.getLong("WorldUUIDMost"), c.getLong("WorldUUIDLeast")));
 	}
 	
 }
