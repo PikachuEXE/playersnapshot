@@ -17,6 +17,10 @@ public class Config {
 		return Plugin.getInstance().getConfig().getString(property);
 	}
 
+	public static Double getDouble(String property) {
+		return Plugin.getInstance().getConfig().getDouble(property);
+	}
+	
 	public static Integer getInt(String property) {
 		return Plugin.getInstance().getConfig().getInt(property);
 	}
